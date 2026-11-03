@@ -1,0 +1,127 @@
+<!doctype html>
+<html lang="pl">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>ProdTrans</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <header class="bar">
+    <div class="brand">ProdTrans</div>
+    <nav class="tabs" aria-label="Widok">
+      <a href="#/" data-view="live" class="tab">Na żywo</a>
+      <a href="#/ustawienia" data-view="settings" class="tab">Ustawienia</a>
+    </nav>
+    <div class="spacer"></div>
+    <div id="engine" class="pill" title="Model rozpoznawania mowy" hidden></div>
+    <div id="verifier" class="pill" title="Weryfikacja drugim modelem" hidden></div>
+    <div id="audio" class="pill" title="Źródło dźwięku">Audio: –</div>
+    <div id="conn" class="pill pill-warn" hidden>Łączenie…</div>
+    <button id="toggle" class="btn-run" disabled>Start</button>
+  </header>
+
+  <!-- Na żywo -->
+  <section id="view-live" class="view">
+    <nav id="channels" class="channels" aria-label="Kanały"></nav>
+    <div class="live-tools">
+      <button id="font-down" class="ghost" title="Mniejsza czcionka">A−</button>
+      <button id="font-up" class="ghost" title="Większa czcionka">A+</button>
+      <button id="clear" class="ghost" title="Czyści tylko ekran, zapis sesji zostaje">Wyczyść widok</button>
+      <a id="export" class="ghost button" href="/api/export">Eksport .txt</a>
+    </div>
+    <main id="feed" class="feed" aria-live="polite">
+      <p id="empty" class="empty">Czekam na mowę na kanałach…</p>
+    </main>
+    <button id="jump" class="jump" hidden>Skocz do teraz</button>
+  </section>
+
+  <!-- Ustawienia -->
+  <section id="view-settings" class="view settings" hidden>
+    <div class="settings-inner">
+      <div id="error" class="alert" role="alert" hidden></div>
+
+      <section class="card">
+        <header class="card-head">
+          <h2>Źródło dźwięku</h2>
+          <p>Interfejs audio, z którego aplikacja słucha. Dante Virtual Soundcard, mikrofon Maca albo dowolna karta USB.</p>
+        </header>
+        <div class="field-row">
+          <label class="field grow">
+            <span>Urządzenie</span>
+            <select id="device"></select>
+          </label>
+          <button id="refresh" class="ghost" title="Odśwież listę, np. po włączeniu Dante">↻ Odśwież listę</button>
+        </div>
+        <label class="field narrow">
+          <span>Częstotliwość próbkowania</span>
+          <select id="rate"></select>
+        </label>
+        <div class="inputs-head">
+          <span>Sygnał na wejściach</span>
+          <small id="inputs-hint"></small>
+        </div>
+        <div id="inputs" class="inputs"></div>
+      </section>
+
+      <section class="card">
+        <header class="card-head">
+          <h2>Kanały</h2>
+          <p>Każdy kanał to osobna linia transkrypcji. Nadaj mu nazwę, kolor i wybierz wejście urządzenia.</p>
+        </header>
+        <div id="chan-list" class="chan-list"></div>
+        <button id="add-channel" class="ghost add">+ Dodaj kanał</button>
+      </section>
+
+      <section class="card">
+        <header class="card-head">
+          <h2>Rozpoznawanie mowy</h2>
+          <p>Wszystko działa lokalnie na tym Macu, bez internetu.</p>
+        </header>
+        <div id="engines" class="engines" role="radiogroup" aria-label="Silnik"></div>
+        <div class="verify">
+          <label class="switch big">
+            <input type="checkbox" id="verify">
+            <span>
+              <b>Weryfikacja drugim modelem</b>
+              <small>Tekst pojawia się od razu, a po 1–2 s dokładniejszy model (Whisper) sprawdza go i poprawia.
+                Pierwsze włączenie pobiera ~1,6 GB.</small>
+            </span>
+          </label>
+          <div id="verify-options" class="verify-options">
+            <label class="field narrow">
+              <span>Język weryfikacji</span>
+              <select id="verify-lang">
+                <option value="pl">Polski (zalecane)</option>
+                <option value="auto">Wykrywaj automatycznie</option>
+              </select>
+            </label>
+          </div>
+        </div>
+        <details class="advanced">
+          <summary>Ustawienia zaawansowane</summary>
+          <div id="vad" class="sliders"></div>
+          <label class="check">
+            <input type="checkbox" id="debug-record">
+            <span>
+              Zapisuj nagrania wypowiedzi
+              <small>Pliki .wav w folderze sesji. Przydają się do porównania silników na prawdziwym dźwięku.</small>
+            </span>
+          </label>
+          <button id="vad-reset" class="ghost">Przywróć domyślne</button>
+        </details>
+      </section>
+    </div>
+
+    <div id="savebar" class="savebar" hidden>
+      <span>Masz niezapisane zmiany</span>
+      <div class="spacer"></div>
+      <button id="discard" class="ghost">Odrzuć</button>
+      <button id="save" class="primary">Zapisz i zastosuj</button>
+    </div>
+  </section>
+
+  <script src="app.js"></script>
+  <script src="settings.js"></script>
+</body>
+</html>

@@ -1,0 +1,55 @@
+# Nazwa urządzenia z `prodtrans devices` (wystarczy fragment nazwy).
+device = "Dante Virtual Soundcard"
+sample_rate = 48000
+engine = "parakeet"                       # albo "qwen"
+# model = "mlx-community/parakeet-tdt-0.6b-v3"   # domyślnie: model wybranego silnika
+sessions_dir = "sessions"
+
+[vad]
+threshold = 0.5          # czułość wykrywania mowy (0..1)
+min_silence_ms = 500     # tyle ciszy kończy wypowiedź
+pre_roll_ms = 300        # dźwięk sprzed startu mowy dołączany do segmentu
+min_segment_s = 0.3      # krótsze segmenty są odrzucane
+max_segment_s = 12.0     # dłuższa mowa jest cięta
+partial_every_s = 1.0    # co ile odświeżać tekst wstępny
+
+# index = numer wejścia urządzenia liczony od 0 (wejście 1 DVS = index 0)
+[[channels]]
+index = 0
+name = "Inspicjent"
+color = "#e4572e"
+
+[[channels]]
+index = 1
+name = "FOH"
+color = "#29a3e6"
+
+[[channels]]
+index = 2
+name = "Monitory"
+color = "#f3a712"
+
+[[channels]]
+index = 3
+name = "Światło"
+color = "#a8c256"
+
+[[channels]]
+index = 4
+name = "Scena L"
+color = "#c45bd6"
+
+[[channels]]
+index = 5
+name = "Scena P"
+color = "#3ec7b0"
+
+[[channels]]
+index = 6
+name = "Kamera 1"
+color = "#ef6fa8"
+
+[[channels]]
+index = 7
+name = "Reżyser"
+color = "#d9d9d9"
